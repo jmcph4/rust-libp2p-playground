@@ -24,7 +24,7 @@ pub struct Opts {
 }
 
 fn main() -> Result<()> {
-    let opts: Opts = Opts::parse(); /* TODO: remove underscore */
+    let opts: Opts = Opts::parse();
 
     let local_keys: identity::Keypair = identity::Keypair::generate_ed25519();
     let local_peer_id: PeerId = PeerId::from(local_keys.public());
@@ -52,12 +52,12 @@ fn main() -> Result<()> {
     let mut listening = false;
     block_on(future::poll_fn(move |cx| loop {
         match swarm.poll_next_unpin(cx) {
-            Poll::Ready(Some(event)) => println!("{:?}", event),
+            Poll::Ready(Some(event)) => info!("{:?}", event),
             Poll::Ready(None) => return Poll::Ready(()),
             Poll::Pending => {
                 if !listening {
                     for addr in Swarm::listeners(&swarm) {
-                        println!("Listening on {}", addr);
+                        info!("Listening on {}", addr);
                         listening = true;
                     }
                 }
