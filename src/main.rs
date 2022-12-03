@@ -5,9 +5,8 @@ use futures::executor::block_on;
 use futures::prelude::*;
 use libp2p::ping::{Ping, PingConfig};
 use libp2p::swarm::Swarm;
-use libp2p::{floodsub, identity, Multiaddr, PeerId, Transport};
+use libp2p::{floodsub, identity, Multiaddr, PeerId};
 use log::info;
-use pretty_env_logger;
 use std::task::Poll;
 
 pub mod messages;
@@ -19,7 +18,7 @@ type Result<T> =
 #[derive(Clap)]
 #[clap(version = crate_version!())]
 pub struct Opts {
-    data_filepath: PathBuf,
+    _data_filepath: PathBuf,
     remote_peer: Option<String>,
 }
 
@@ -28,7 +27,7 @@ fn main() -> Result<()> {
 
     let local_keys: identity::Keypair = identity::Keypair::generate_ed25519();
     let local_peer_id: PeerId = PeerId::from(local_keys.public());
-    let topic: floodsub::Topic = floodsub::Topic::new("recipes".to_string());
+    let _topic: floodsub::Topic = floodsub::Topic::new("recipes".to_string());
 
     pretty_env_logger::init();
 
@@ -45,7 +44,7 @@ fn main() -> Result<()> {
 
     if let Some(addr) = opts.remote_peer {
         let remote: Multiaddr = addr.parse()?;
-        info!("Dialling remote peer at {}...", remote.clone());
+        info!("Dialling remote peer at {}...", remote);
         swarm.dial_addr(remote)?;
     }
 
